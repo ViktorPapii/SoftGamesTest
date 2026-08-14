@@ -9,6 +9,7 @@ namespace SoftGames.AceOfShadows
     /// At 144 cards the per-card offset would fall below a pixel, so the extra cards are not objects.
     /// <see cref="Relayout"/> is the single pass — slots and draw order both come from it.
     /// </summary>
+    [ExecuteAlways]
     public class DeckView : MonoBehaviour
     {
         [Header("Layout")]
@@ -30,6 +31,17 @@ namespace SoftGames.AceOfShadows
 
         [Tooltip("Hide cards authored into the scene at edit time; they are layout aids, not runtime objects.")]
         [SerializeField] private bool hideAuthoredChildrenOnInit = true;
+
+        [Header("Screen anchoring")]
+        [Tooltip("Drives the camera scale and reports viewport changes.")]
+        [SerializeField] private ScreenLayoutWatcher layoutWatcher;
+
+        [Tooltip("UI element this deck sits against. Empty leaves the deck at its authored position.")]
+        [SerializeField] private RectTransform counterAnchor;
+
+        [Tooltip("World offset from the anchor. Keep it mostly vertical: a fixed orthographic size " +
+                 "makes world-units-per-screen-height constant, while width varies with aspect.")]
+        [SerializeField] private Vector3 offsetFromCounter;
 
         // Visible cards, index 0 being the most recently landed.
         private readonly List<CardView> _residents = new();
@@ -57,6 +69,64 @@ namespace SoftGames.AceOfShadows
         private int ReservedSlots => Mathf.Min(_pendingIncoming, visibleDepth - 1);
 
         public Vector3 GetSlotWorldPosition(int slot) => transform.TransformPoint(slotOffset * slot);
+
+        private void OnEnable()
+        {
+            if (layoutWatcher == null)
+            {
+                return;
+            }
+
+            layoutWatcher.Changed += SnapToAnchor;
+
+            // The canvas rect is not laid out yet on the first frame, so a bare snap here would read
+            // a stale size and park the deck off screen.
+            layoutWatcher.Refresh();
+        }
+
+        private void OnDisable()
+        {
+            if (layoutWatcher != null)
+            {
+                layoutWatcher.Changed -= SnapToAnchor;
+            }
+        }
+
+        /// <summary>
+        /// Places the deck at its anchor's position plus the offset. Cards are children, so they
+        /// come along.
+        ///
+        /// Maps through the canvas rect rather than through screen pixels: a letterboxed viewport
+        /// makes screen space and the camera's pixel rect disagree, which put the decks in the wrong
+        /// place on every aspect but the authored one.
+        /// </summary>
+        private void SnapToAnchor()
+        {
+            if (counterAnchor == null || layoutWatcher == null)
+            {
+                return;
+            }
+
+            RectTransform canvasRect = layoutWatcher.CanvasRect;
+            Camera worldCamera = layoutWatcher.WorldCamera;
+
+            if (worldCamera == null || canvasRect == null)
+            {
+                return;
+            }
+
+            Rect canvas = canvasRect.rect;
+            if (canvas.width <= 0f || canvas.height <= 0f)
+            {
+                return;
+            }
+
+            Vector3 local = canvasRect.InverseTransformPoint(counterAnchor.position);
+            float x = local.x / canvas.width * (2f * worldCamera.orthographicSize * worldCamera.aspect);
+            float y = local.y / canvas.height * (2f * worldCamera.orthographicSize);
+
+            transform.position = new Vector3(x, y, transform.position.z) + offsetFromCounter;
+        }
 
         public void Initialize(CardPool cardPool, CardDeckAsset cards)
         {

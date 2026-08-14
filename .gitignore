@@ -114,6 +114,7 @@ InitTestScene*.unity*
 # Machine-local tooling config
 /.mcp.json
 /.claude/
+/CLAUDE.md
 
 # Working notes
 /[Aa]ssets/[Dd]ocs/
