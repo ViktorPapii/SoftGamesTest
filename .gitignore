@@ -114,3 +114,7 @@ InitTestScene*.unity*
 # Machine-local tooling config
 /.mcp.json
 /.claude/
+
+# Working notes
+/[Aa]ssets/[Dd]ocs/
+/[Aa]ssets/[Dd]ocs.meta
