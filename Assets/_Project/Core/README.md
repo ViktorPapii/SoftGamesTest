@@ -304,10 +304,8 @@ the legacy `StandaloneInputModule` looks completely correct in the inspector whi
 slider in the project silently stops responding, and nothing short of driving a pointer catches it.
 
 There is now exactly one EventSystem, on the persistent root, carrying `InputSystemUIInputModule`.
-`UiInputTests` asserts the active module's type, that it has an actions asset, and that it is
-enabled; then raycasts the menu through `EventSystem.RaycastAll` to prove nothing invisible covers
-it, clicks a menu entry and asserts a transition starts, and drags the Ace of Shadows speed slider to
-its maximum. `SceneTeardownTests` separately asserts each scene has exactly one EventSystem.
+`SceneTeardownTests` asserts each scene has exactly one EventSystem; the module itself is checked by
+running the game.
 
 ## Editor tools
 

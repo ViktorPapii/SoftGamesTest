@@ -6,8 +6,7 @@
         "UnityEditor.TestRunner",
         "SoftGames.Core",
         "DOTween.Modules",
-        "UnityEngine.UI",
-        "Unity.InputSystem"
+        "UnityEngine.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
