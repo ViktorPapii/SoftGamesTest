@@ -6,8 +6,7 @@ namespace SoftGames.PhoenixFlame
     /// <summary>
     /// The fire: five particle layers stacked from the ground glow up to the smoke, plus the 2D
     /// light they throw onto the scene. Colour is the only thing this drives; shape, timing and the
-    /// alpha envelopes are baked into the prefab by FlamePrefabBuilder, which owns them — an
-    /// inspector tweak to the prefab is overwritten the next time that tool runs.
+    /// alpha envelopes live in the prefab and are edited there.
     /// </summary>
     public class FlameView : MonoBehaviour
     {

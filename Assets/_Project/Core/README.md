@@ -307,5 +307,5 @@ its maximum. `SceneTeardownTests` separately asserts each scene has exactly one 
 None in Core. The manager, the bootstrap, the menu entry button and the menu scene are ordinary
 assets, edited in the inspector.
 
-Phoenix Flame keeps its generators (**Tools ▸ SoftGames ▸ Phoenix Flame**) because there the
-generated textures, materials and animator *are* the task — see its README.
+The one editor tool in the project is Magic Words' **Tools ▸ SoftGames ▸ Rebuild Emoji Sprite
+Asset**, which packs the emoji atlas the dialogue text draws from.

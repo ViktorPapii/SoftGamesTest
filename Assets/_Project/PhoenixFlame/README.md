@@ -77,26 +77,16 @@ fourth colour therefore means an entry *and* a state.
 The button calls `FlameColorController.Next()` through its `UnityEvent`, and the readout in the
 corner is the palette's own name, tinted with its body colour.
 
-## Generated assets
+## Art assets
 
-Three tools under **Tools ▸ SoftGames ▸ Phoenix Flame**, to be run in this order:
+`Art/Images/ember_dot.png`, `flame_glow.png` and `backdrop.png` are white with the shape in the alpha
+channel, so one texture serves every colour in the cycle — colour arrives per particle.
 
-| Menu item | Writes |
-|---|---|
-| Rebuild Textures And Materials | `Art/*.png`, `Art/Materials/*.mat` |
-| Rebuild Flame Prefab | `Prefabs/Flame.prefab` |
-| Rebuild Colour Animator | `Animation/FlameColor.controller` + `Flame_Fade.anim`, and seeds the palette asset the first time. States are built from the palette asset's entry names, so the graph always matches it. |
+`Prefabs/Flame.prefab`, `Animation/FlameColor.controller` and `Flame_Fade.anim` are ordinary assets,
+edited in the inspector.
 
-The generated textures are white with the shape in the alpha channel — an ember dot, a soft falloff
-for the glow, plus the backdrop gradient. One texture serves every colour, because colour arrives per
-particle.
-
-`FlamePalettes.cs` is only a seed: it fills the palette asset on first run and supplies the colours
-the prefab ships with, so the fire is orange in the editor without entering play mode. After that the
-**asset** is the authority and the tools never overwrite it.
-
-The tools rewrite assets in place rather than deleting and recreating them: a fresh asset would take
-a new GUID and quietly empty the slot that referenced it.
+The one link nothing enforces at edit time is the name: an animator state matches the palette entry
+it is named after. `FlamePaletteGraphTests` is what keeps the two honest.
 
 ## Rendering
 
