@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a28868a2cd824412a8502931927d7e9, type: 3}
+  m_Name: SceneCatalog
+  m_EditorClassIdentifier: SoftGames.Core::SoftGames.Core.SceneCatalog
+  mainMenu:
+    sceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+    sceneName: MainMenu
+    title: Main Menu
+    tagline: 
+  games:
+  - sceneAsset: {fileID: 102900000, guid: c915bc57c9681429583c95cf25792e46, type: 3}
+    sceneName: AceOfShadows
+    title: Ace of Shadows
+    tagline: 144 cards, one deck to the next
+  - sceneAsset: {fileID: 102900000, guid: 44766148e3d134190a2f952d6e5575c5, type: 3}
+    sceneName: MagicWords
+    title: Magic Words
+    tagline: Dialogue and emoji, fetched at runtime
+  - sceneAsset: {fileID: 102900000, guid: 4a48a0d8369494014a2e44857cd51712, type: 3}
+    sceneName: PhoenixFlame
+    title: Phoenix Flame
+    tagline: A fire that changes colour on command
