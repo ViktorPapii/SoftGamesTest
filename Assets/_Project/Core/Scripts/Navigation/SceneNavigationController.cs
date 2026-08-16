@@ -17,6 +17,7 @@ namespace SoftGames.Core
         [SerializeField] private bool unloadUnusedAssets = true;
 
         private bool _isBusy;
+        private bool _isSwapping;
 
         // True from the first frame of the cover to the last frame of the reveal.
         public bool IsBusy
@@ -30,6 +31,22 @@ namespace SoftGames.Core
                 }
 
                 _isBusy = value;
+                StateChanged?.Invoke();
+            }
+        }
+
+        // Drops before the reveal rather than after it, which is the point of it existing.
+        public bool IsSwapping
+        {
+            get => _isSwapping;
+            private set
+            {
+                if (_isSwapping == value)
+                {
+                    return;
+                }
+
+                _isSwapping = value;
                 StateChanged?.Invoke();
             }
         }
@@ -64,6 +81,7 @@ namespace SoftGames.Core
             }
 
             IsBusy = true;
+            IsSwapping = true;
             CancellationToken token = destroyCancellationToken;
 
             try
@@ -96,6 +114,11 @@ namespace SoftGames.Core
             }
             finally
             {
+                // Whatever is on screen now is what the reveal will show, so scene chrome takes its
+                // place here — while the cover is still opaque. Dropped before the reveal on the
+                // failed path too, where the outgoing scene is the one staying.
+                IsSwapping = false;
+
                 // Revealed however the load ended. The cover blocks raycasts, and on the menu the
                 // Exit button is hidden, so a swallowed throw would strand the app behind an opaque
                 // screen with nothing left to press.

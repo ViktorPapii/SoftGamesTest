@@ -49,7 +49,10 @@ namespace SoftGames.Core
 
         private void Apply()
         {
-            bool showExit = !_navigation.IsOnMenu && !_navigation.IsBusy;
+            // IsSwapping, not IsBusy: it drops while the screen is still covered, so the button and
+            // the readout beside it are in place — and past the button's own colour fade — by the
+            // time the reveal starts.
+            bool showExit = !_navigation.IsOnMenu && !_navigation.IsSwapping;
 
             exitGroup.alpha = showExit ? 1f : 0f;
             exitGroup.interactable = showExit;

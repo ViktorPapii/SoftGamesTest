@@ -83,13 +83,13 @@ the game that survives a scene change:
 GameManager                       ← DontDestroyOnLoad; GameManager, SceneNavigationController
 ├── EventSystem                   EventSystem + InputSystemUIInputModule
 ├── PopupCanvas      order 32740  CompletionPopup — scrim, message, Retry, Menu
-├── FadeCanvas       order 32750  CanvasGroup, SceneFader, full-screen Cover image
-└── HudCanvas        order 32760  GameHud, FpsCounter; ExitButton (plain uGUI Button)
+├── HudCanvas        order 32745  GameHud, FpsCounter; ExitButton (plain uGUI Button)
+└── FadeCanvas       order 32750  CanvasGroup, SceneFader, full-screen Cover image
 ```
 
-The three canvases stack in the order they have to: the popup covers the game, the fader covers the
-popup, and the HUD stays above both — so the frame counter survives a transition and the Menu button
-is reachable even with a modal open.
+The three canvases stack in the order they have to: the HUD draws over the popup, so the Menu button
+stays reachable with a modal open, and the fader covers both — so a transition hides the chrome it is
+about to reposition.
 
 The frame rate readout and the Exit button live here rather than in each scene: one copy, present
 everywhere, impossible to forget when adding a scene.
@@ -129,7 +129,14 @@ The navigator knows no UI at all. It raises `SceneChanging` behind the cover, an
 state belonging to the outgoing scene drops it there — that is how the popup clears its retry
 callback without the navigator having heard of a popup.
 
-The HUD sits **above** the fader, so it stays readable across a transition.
+The HUD sits **under** the fader. Scene chrome takes its place while `IsSwapping` is false but the
+cover is still opaque, so the reveal brings the Exit button in with the scene instead of popping it
+on afterwards — which only works if the cover is drawn over it. The frame rate readout is unaffected
+either way: `FpsCounter` is IMGUI and draws outside the canvas system, so it stays legible across a
+transition regardless of sorting order.
+
+It also means the cover's `blocksRaycasts` genuinely covers the Exit button during a transition,
+rather than the button relying on `Load`'s own `IsBusy` guard to ignore the click.
 
 ### The frame rate readout
 
