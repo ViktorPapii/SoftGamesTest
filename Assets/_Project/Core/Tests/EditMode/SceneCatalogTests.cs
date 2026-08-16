@@ -35,7 +35,7 @@ namespace SoftGames.Core.Tests
         [Test]
         public void MainMenuIsInBuildSettings()
         {
-            Assert.IsNotNull(_catalog.MainMenu, "The catalog has no main menu entry.");
+            Assert.IsNotNull(_catalog.MainMenu, "The catalog has no main menu.");
             Assert.Contains(_catalog.MainMenu.SceneName, _builtScenes.ToList(),
                 "The Exit button on every scene returns here, so it has to ship.");
         }
@@ -53,11 +53,11 @@ namespace SoftGames.Core.Tests
         {
             Assert.IsNotEmpty(_catalog.Games, "The catalog lists no games; the menu would be empty.");
 
-            foreach (SceneCatalog.Entry entry in _catalog.Games)
+            foreach (SceneCatalog.SceneInfo scene in _catalog.Games)
             {
-                Assert.IsNotEmpty(entry.SceneName, "A catalog entry has no scene assigned.");
-                Assert.Contains(entry.SceneName, _builtScenes.ToList(),
-                    $"'{entry.SceneName}' is on the menu but not in Build Settings, so its button " +
+                Assert.IsNotEmpty(scene.SceneName, "A catalog entry has no scene assigned.");
+                Assert.Contains(scene.SceneName, _builtScenes.ToList(),
+                    $"'{scene.SceneName}' is on the menu but not in Build Settings, so its button " +
                     "would throw on click. Add it under File > Build Profiles.");
             }
         }
@@ -65,9 +65,9 @@ namespace SoftGames.Core.Tests
         [Test]
         public void EveryGameHasATitle()
         {
-            foreach (SceneCatalog.Entry entry in _catalog.Games)
+            foreach (SceneCatalog.SceneInfo scene in _catalog.Games)
             {
-                Assert.IsNotEmpty(entry.Title, $"'{entry.SceneName}' would show a blank menu button.");
+                Assert.IsNotEmpty(scene.Title, $"'{scene.SceneName}' would show a blank menu button.");
             }
         }
     }

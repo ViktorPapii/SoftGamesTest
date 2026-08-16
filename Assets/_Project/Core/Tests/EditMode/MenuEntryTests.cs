@@ -34,7 +34,7 @@ namespace SoftGames.Core.Tests
         [Test]
         public void EveryRowNamesASceneInTheCatalog()
         {
-            string[] known = _catalog.Games.Select(entry => entry.SceneName).ToArray();
+            string[] known = _catalog.Games.Select(scene => scene.SceneName).ToArray();
 
             foreach (MenuEntryButton row in _rows)
             {
@@ -64,10 +64,10 @@ namespace SoftGames.Core.Tests
         {
             string[] onMenu = _rows.Select(row => row.SceneName).ToArray();
 
-            foreach (SceneCatalog.Entry entry in _catalog.Games)
+            foreach (SceneCatalog.SceneInfo scene in _catalog.Games)
             {
-                Assert.Contains(entry.SceneName, onMenu,
-                    $"'{entry.SceneName}' is in the catalog but has no row in the menu scene, so " +
+                Assert.Contains(scene.SceneName, onMenu,
+                    $"'{scene.SceneName}' is in the catalog but has no row in the menu scene, so " +
                     "there is no way to reach it.");
             }
         }

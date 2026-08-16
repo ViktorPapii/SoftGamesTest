@@ -9,11 +9,11 @@ namespace SoftGames.Core
     public class SceneCatalog : ScriptableObject
     {
         /// <summary>
-        /// A scene plus how the menu presents it. SceneAsset is editor-only, so it is baked to a
-        /// name on validate; renaming or moving the scene updates the entry.
+        /// Which scene, and how the menu presents it. SceneAsset is editor-only, so it is baked to
+        /// a name on validate; renaming or moving the scene updates it.
         /// </summary>
         [Serializable]
-        public class Entry
+        public class SceneInfo
         {
 #if UNITY_EDITOR
             [Tooltip("Drag the scene here. Its name is baked into the field below on validate.")]
@@ -46,23 +46,23 @@ namespace SoftGames.Core
         }
 
         [Tooltip("Where the Exit button in every game scene returns to.")]
-        [SerializeField] private Entry mainMenu;
+        [SerializeField] private SceneInfo mainMenu;
 
         [Tooltip("One per task, in the order the menu should list them.")]
-        [SerializeField] private Entry[] games = Array.Empty<Entry>();
+        [SerializeField] private SceneInfo[] games = Array.Empty<SceneInfo>();
 
-        public Entry MainMenu => mainMenu;
+        public SceneInfo MainMenu => mainMenu;
 
-        public Entry[] Games => games;
+        public SceneInfo[] Games => games;
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
             mainMenu?.SyncSceneName();
 
-            foreach (Entry entry in games)
+            foreach (SceneInfo scene in games)
             {
-                entry?.SyncSceneName();
+                scene?.SyncSceneName();
             }
         }
 #endif
