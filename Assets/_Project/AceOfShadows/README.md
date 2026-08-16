@@ -99,7 +99,14 @@ camera fires once against a stale rect and then never again.
 
 ## Art
 
-`Art/Images` holds the face sprites, packed by `Art/AceOfShadows_Atlas`; `CardDeckAsset` scans that folder from its
-**Load Sprites From Folder** context menu and sorts the result so the asset diff is stable. 144 cards
-draw from ~53 sprites, so faces repeat — nothing here compares or matches cards, so there is no
-suit/rank lookup.
+`Art/Images` splits in two: `Cards/` holds the 53 face sprites, `UI/` the slider and button art this
+scene draws. `Art/AceOfShadows_Atlas` packs `Images/` and so picks up both — 57 sprites in one page,
+which is the whole reason this is the project's only atlas.
+
+The split is not cosmetic. `CardDeckAsset` fills itself from its **Load Sprites From Folder** context
+menu, and that scan takes *every* sprite under its `sourceFolder`, recursively, with no filter — so
+the folder it points at has to contain cards and nothing else. It is `Images/Cards`. Results are
+sorted so the asset diff is stable.
+
+144 cards draw from those 53 sprites, so faces repeat — nothing here compares or matches cards, so
+there is no suit/rank lookup.

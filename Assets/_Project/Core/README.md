@@ -47,32 +47,42 @@ assignment itself.
 
 ## Art and atlases
 
-Every game keeps its images in `Art/Images/` and has one sprite atlas beside it:
+There is **one** sprite atlas: `AceOfShadows/Art/AceOfShadows_Atlas`, packing the 53 card faces and
+the four UI sprites the same scene draws — 57 in one page. Its packable is the **folder**, so art
+dropped into `Images/` is atlased from then on without anyone remembering to add it.
 
-| Atlas | Packs |
+Everything else ships as its own texture. An atlas earns its place by collapsing many draws into
+one; three of them here held a single sprite each and did nothing but add a page, and the fourth
+packed the 1920x1080 menu background into a 2048 sheet that was then three-quarters empty. A
+full-screen background is drawn alone and cannot batch with anything, so atlasing it only rounds it
+up to the next power of two.
+
+That gives the rule for compression:
+
+| Where it ships | Import settings |
 |---|---|
-| `Core/Art/Core_Atlas` | the shared UI kit and the menu backdrop |
-| `AceOfShadows/Art/AceOfShadows_Atlas` | 53 card faces |
-| `MagicWords/Art/MagicWords_Atlas` | the placeholder portrait |
-| `PhoenixFlame/Art/PhoenixFlame_Atlas` | the backdrop |
+| Inside the atlas | Leave the source alone — the atlas carries the format |
+| On its own | Compressed and crunched, max size at its native resolution |
 
-Each atlas's packable is the **folder**, not a list of sprites. Art dropped into `Images/` is
-atlased from then on without anyone remembering to add it — which is the only version of this that
-stays true six months later.
+Sources inside the atlas stay **uncompressed** on purpose. Unity excludes them from the build once
+they are packed, so their settings never reach the player; compressing them anyway would decompress
+and repack, throwing pixels away before the atlas ever sees them.
 
-Sprite sources are imported **uncompressed**; the atlas carries the compression, crunched at 4096.
-Compressing the source as well would throw away pixels before packing, and Unity warns about exactly
-that. Both halves matter — uncompressed sources with an uncompressed atlas ships raw RGBA, which on
-WebGL is download size and heap both.
+The standalone ones do reach the player, so they carry it themselves — crunched DXT, which is what
+WebGL wants for download size:
 
-Two sets of textures are deliberately outside this:
+| Texture | Result |
+|---|---|
+| `Core/Art/Images/background.png` | 1920x1080 `DXT5Crunched` — was raw RGBA32 |
+| `PhoenixFlame/.../backdrop.png` | 512 `DXT1Crunched` — no alpha, so half of DXT5 |
+| `MagicWords/.../avatar_placeholder.png` | 256 `DXT5Crunched` |
+| `PhoenixFlame` particle sheets | 2048 crunched, `Default` textures sampled by particle materials rather than sprites — an atlas could never pack them |
 
-- **The Phoenix Flame particle sheets** (`flame_sheet`, `smoke_sheet`, `flame_glow`, `ember_dot`) are
-  `Default` textures sampled by particle materials, not sprites. A sprite atlas cannot pack them, and
-  they ship compressed on their own. They live in `Images/` with the rest; the packer skips them.
-- **`MagicWords/Art/Emoji/EmojiAtlas.png`** is TextMeshPro's own sprite-asset sheet. TMP resolves
-  emoji through its `TMP_SpriteAsset` and its own UV rects, so it must not be repacked. It is kept
-  out of `Images/` for that reason.
+Nothing sets a WebGL *override*: WebGL inherits the default platform, and the defaults above are
+already what it needs. An override that restates its parent is a second place to keep in sync.
+
+`MagicWords/Art/Emoji/EmojiAtlas.png` is TextMeshPro's own sprite-asset sheet, resolved through a
+`TMP_SpriteAsset` and its own UV rects, so it must not be repacked and is kept out of `Images/`.
 
 ## The persistent root
 

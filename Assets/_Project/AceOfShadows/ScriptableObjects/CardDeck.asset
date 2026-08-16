@@ -66,5 +66,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c0ad07391f3ce4e0e8638fd660bc6c62, type: 3}
   - {fileID: 21300000, guid: 479c509c019a84b87858ac40c5668ae8, type: 3}
   - {fileID: 21300000, guid: 5a4c085dde6314058886266d17d0a012, type: 3}
-  sourceFolder: Assets/_Project/AceOfShadows/Art/Images
+  sourceFolder: Assets/_Project/AceOfShadows/Art/Images/Cards
   excludedSpriteName: cardBack
