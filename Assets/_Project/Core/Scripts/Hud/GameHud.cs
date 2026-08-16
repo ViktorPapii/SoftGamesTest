@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace SoftGames.Core
@@ -21,6 +22,9 @@ namespace SoftGames.Core
         [Tooltip("Parked past the Exit button while it shows, and sent to its corner when it does not.")]
         [SerializeField] private FpsCounter counter;
 
+        [Tooltip("Presses the Exit button. UI/Cancel is Escape on a keyboard, B or Circle on a pad.")]
+        [SerializeField] private InputActionReference back;
+
         private IGameNavigation _navigation;
 
         // Handed its navigator by GameManager; the views above are its own.
@@ -34,11 +38,17 @@ namespace SoftGames.Core
         private void Awake()
         {
             exitButton.onClick.AddListener(ReturnToMenu);
+
+            back.action.performed += OnBackPressed;
+            back.action.Enable();
         }
 
         private void OnDestroy()
         {
             exitButton.onClick.RemoveListener(ReturnToMenu);
+
+            back.action.performed -= OnBackPressed;
+            back.action.Disable();
 
             // Null when a duplicate manager tore this down before the root ever handed it one.
             if (_navigation != null)
@@ -59,6 +69,17 @@ namespace SoftGames.Core
             exitGroup.blocksRaycasts = showExit;
 
             counter.Anchor = showExit ? exitRect : null;
+        }
+
+        // Cancel fires wherever the game is, menu and mid-transition included. Pressing the button
+        // rather than calling past it is what keeps the key from acting when the button would not:
+        // the group GameHud toggles is on the button, so IsInteractable already carries the answer.
+        private void OnBackPressed(InputAction.CallbackContext context)
+        {
+            if (exitButton.IsInteractable())
+            {
+                exitButton.onClick.Invoke();
+            }
         }
 
         private void ReturnToMenu()

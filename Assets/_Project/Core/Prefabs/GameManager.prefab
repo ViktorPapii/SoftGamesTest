@@ -1445,11 +1445,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84cead3ea02a54ed6b1d381cfb2132e8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SoftGames.Core::SoftGames.Core.HudController
+  m_EditorClassIdentifier: SoftGames.Core::SoftGames.Core.GameHud
   exitButton: {fileID: 333831113959575311}
   exitGroup: {fileID: 4299700881359355186}
   exitRect: {fileID: 6754792424455369028}
   counter: {fileID: 6648352795058518319}
+  back: {fileID: 7727032971491509709, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &6648352795058518319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1462,7 +1463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ee5d79caf604a74a803204f3fcb40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SoftGames.Core::SoftGames.Core.FpsCounter
-  anchor: {fileID: 0}
   offset: {x: 16, y: 0}
   corner: {x: 24, y: 14}
   relativeFontSize: 0.026

@@ -307,6 +307,16 @@ There is now exactly one EventSystem, on the persistent root, carrying `InputSys
 `SceneTeardownTests` asserts each scene has exactly one EventSystem; the module itself is checked by
 running the game.
 
+`GameHud` takes an `InputActionReference` to `UI/Cancel` in `Assets/Settings/InputSystem_Actions` —
+Escape on a keyboard, B or Circle on a pad, since that action binds the `{Cancel}` usage rather than
+a key. Dragged into the field rather than found by name, so a renamed action is an empty slot in the
+inspector instead of a string that quietly stops matching.
+
+The key does not call `ReturnToMenu` itself; it presses the Exit button. `Cancel` fires everywhere,
+menu and mid-transition included, and the `CanvasGroup` this toggles sits on the button — so
+`IsInteractable()` already carries the answer to "is leaving allowed right now", and there is one
+path out rather than two that can drift apart.
+
 ## Editor tools
 
 None in Core. The manager, the bootstrap, the menu entry button and the menu scene are ordinary
