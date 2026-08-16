@@ -22,10 +22,7 @@ Scene: `Assets/_Project/PhoenixFlame/Scenes/PhoenixFlame.unity`. Nothing to star
 
 All four materials live in `Assets/_Project/PhoenixFlame/Art/Materials`. `Flame_Additive` and `Smoke_Alpha` draw
 3×3 flipbooks — played once across each particle's life from a random start frame, which is where the
-fire gets its detail; the noise module only has to nudge the plume. Those two sheets and their
-materials came from VFXPACK_FIRE_WALLCOEUR, a third party pack that is not otherwise in the project
-— only those two sheets and two materials were kept from it. The glow, the ember dot and the
-backdrop are authored here.
+fire gets its detail; the noise module only has to nudge the plume.
 
 Every layer starts at zero speed and climbs on `velocityOverLifetime` plus a buoyancy force, so
 particles accelerate as they rise the way hot gas does; `limitVelocityOverLifetime` on the body is
