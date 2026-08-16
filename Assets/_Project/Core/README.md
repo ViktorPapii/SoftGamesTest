@@ -307,5 +307,7 @@ its maximum. `SceneTeardownTests` separately asserts each scene has exactly one 
 None in Core. The manager, the bootstrap, the menu entry button and the menu scene are ordinary
 assets, edited in the inspector.
 
-The one editor tool in the project is Magic Words' **Tools ▸ SoftGames ▸ Rebuild Emoji Sprite
-Asset**, which packs the emoji atlas the dialogue text draws from.
+Two elsewhere, both writing an asset that would be tedious and error-prone by hand: Magic Words'
+**Rebuild Emoji Sprite Asset**, which packs the emoji atlas the dialogue text draws from, and Phoenix
+Flame's **Rebuild Colour Animator**, which builds the state graph from the palette asset so the two
+cannot drift.

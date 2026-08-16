@@ -6,8 +6,9 @@ namespace SoftGames.PhoenixFlame
     /// <summary>
     /// The colours the fire walks through, in order. Colour values can be edited freely, including
     /// while the game runs. Adding, removing or renaming an entry is not free: the animator states
-    /// in FlameColor.controller are named after these entries, so a matching state has to be added
-    /// or renamed by hand. FlamePaletteGraphTests fails if the two drift.
+    /// are named after these entries, so the graph has to be rebuilt with
+    /// <c>Tools ▸ SoftGames ▸ Phoenix Flame ▸ Rebuild Colour Animator</c> afterwards.
+    /// FlamePaletteGraphTests fails if the two drift.
     /// </summary>
     [CreateAssetMenu(menuName = "SoftGames/Flame Palette Set", fileName = "FlamePalettes")]
     public class FlamePaletteSet : ScriptableObject

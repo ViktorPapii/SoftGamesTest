@@ -43,8 +43,8 @@ namespace SoftGames.PhoenixFlame.Tests
             {
                 Assert.Contains(_palettes.NameAt(i), _stateNames,
                     $"Palette '{_palettes.NameAt(i)}' has no animator state of that name, so the " +
-                    $"fire never fades to it. Add the state to {ControllerPath}, or rename the entry " +
-                    "to match one that is there.");
+                    "fire never fades to it. Run Tools ▸ SoftGames ▸ Phoenix Flame ▸ Rebuild " +
+                    "Colour Animator.");
             }
         }
 

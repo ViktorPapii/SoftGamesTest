@@ -82,11 +82,15 @@ corner is the palette's own name, tinted with its body colour.
 `Art/Images/ember_dot.png`, `flame_glow.png` and `backdrop.png` are white with the shape in the alpha
 channel, so one texture serves every colour in the cycle — colour arrives per particle.
 
-`Prefabs/Flame.prefab`, `Animation/FlameColor.controller` and `Flame_Fade.anim` are ordinary assets,
-edited in the inspector.
+`Prefabs/Flame.prefab` is an ordinary asset, edited in the inspector.
 
-The one link nothing enforces at edit time is the name: an animator state matches the palette entry
-it is named after. `FlamePaletteGraphTests` is what keeps the two honest.
+`Animation/FlameColor.controller` and `Flame_Fade.anim` are generated from the palette asset by
+**Tools ▸ SoftGames ▸ Phoenix Flame ▸ Rebuild Colour Animator**. Adding a colour is therefore one
+entry in the palette asset and one run of that tool — it builds a state per entry, named after it,
+chained on the `Next` trigger. The palette asset is only read; the tool never writes colours.
+
+The link between the two is the name, and `FlamePaletteGraphTests` is what keeps them honest if the
+tool is not run.
 
 ## Rendering
 
