@@ -334,7 +334,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.0639553
+  orthographic size: 5.0781164
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1416,7 +1416,7 @@ GameObject:
   - component: {fileID: 1414938940}
   - component: {fileID: 1414938944}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1551,7 +1551,7 @@ Transform:
   m_GameObject: {fileID: 1426943460}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.0911903, y: -1.8787704, z: 0}
+  m_LocalPosition: {x: -7.0271964, y: -1.89289, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1604,7 +1604,7 @@ Transform:
   m_GameObject: {fileID: 1451417415}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.0911903, y: 1.8787704, z: 0}
+  m_LocalPosition: {x: 7.0271964, y: 1.89289, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
