@@ -195,6 +195,10 @@ namespace SoftGames.PhoenixFlame.EditorTools
             light.pointLightOuterRadius = 9f;
             light.falloffIntensity = 0.6f;
 
+            // On by default, and nothing in the project casts a 2D shadow: the backdrop is the only
+            // lit renderer and carries no ShadowCaster2D.
+            light.shadowsEnabled = false;
+
             return light;
         }
 
