@@ -11,6 +11,8 @@
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
+# Burst writes its generated WebGL output here during a build.
+/[Dd]ata/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
