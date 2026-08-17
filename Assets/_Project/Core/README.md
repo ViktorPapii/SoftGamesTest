@@ -107,15 +107,19 @@ everywhere, impossible to forget when adding a scene.
 sits. Nothing on the HUD decides any of that for itself, so the button is a plain uGUI `Button` with
 no script of its own and the readout knows nothing about the button.
 
-It asks the navigator two questions, `IsOnMenu` and `IsSwapping`, through `IGameNavigation`, and is
-told when to re-ask: `StateChanged` fires when either `IsBusy` or `IsSwapping` flips, which between
-them cover every moment an answer can change. So the HUD has no `Update` at all. `IsOnMenu` is
-answered by the navigator so no UI has to know a scene name, or that the catalog is where the menu
-is recorded.
+It asks the navigator one question — `IsOnMenu`, through `IGameNavigation` — and is told when to
+re-ask: `StateChanged` fires when `IsBusy` flips and again the moment a scene has finished loading.
+So the HUD has no `Update` at all, and no UI has to know a scene name or that the catalog is where
+the menu is recorded.
 
-`IsSwapping` rather than `IsBusy` is the whole point: it drops once the incoming scene is in place
-and the cover is still opaque, so the Exit button is positioned before the reveal rather than
-appearing on top of the finished scene.
+Gating on the scene rather than on the transition is what makes both ends of a load feel right, and
+it only works because the HUD is drawn **under** the fader:
+
+- **Leaving a game**, the button stays up as the cover fades over it, so it goes dark with the scene
+  instead of vanishing the instant it is clicked.
+- **Arriving somewhere new**, the answer changes behind an opaque cover, so the button is already
+  settled — past its own colour fade — when the reveal starts, rather than popping in on top of a
+  finished scene.
 
 ### Composition
 
@@ -141,11 +145,10 @@ The navigator knows no UI at all. It raises `SceneChanging` behind the cover, an
 state belonging to the outgoing scene drops it there — that is how the popup clears its retry
 callback without the navigator having heard of a popup.
 
-The HUD sits **under** the fader. Scene chrome takes its place while `IsSwapping` is false but the
-cover is still opaque, so the reveal brings the Exit button in with the scene instead of popping it
-on afterwards — which only works if the cover is drawn over it. The frame rate readout is unaffected
-either way: `FpsCounter` is IMGUI and draws outside the canvas system, so it stays legible across a
-transition regardless of sorting order.
+The HUD sits **under** the fader, which is what lets the cover do the hiding and revealing in both
+directions rather than the button appearing and disappearing on its own. The frame rate readout is
+unaffected either way: `FpsCounter` is IMGUI and draws outside the canvas system, so it stays legible
+across a transition regardless of sorting order.
 
 It also means the cover's `blocksRaycasts` genuinely covers the Exit button during a transition,
 rather than the button relying on `Load`'s own `IsBusy` guard to ignore the click.

@@ -59,10 +59,11 @@ namespace SoftGames.Core
 
         private void Apply()
         {
-            // IsSwapping, not IsBusy: it drops while the screen is still covered, so the button and
-            // the readout beside it are in place — and past the button's own colour fade — by the
-            // time the reveal starts.
-            bool showExit = !_navigation.IsOnMenu && !_navigation.IsSwapping;
+            // Which scene is on screen, and nothing about the transition. Pressing Exit leaves the
+            // button up while the cover fades over it — the HUD sits under the fader — so it goes
+            // dark with the scene instead of vanishing under the cursor. Arriving somewhere new
+            // re-asks behind an opaque cover, so the button is settled before the reveal.
+            bool showExit = !_navigation.IsOnMenu;
 
             exitGroup.alpha = showExit ? 1f : 0f;
             exitGroup.interactable = showExit;
