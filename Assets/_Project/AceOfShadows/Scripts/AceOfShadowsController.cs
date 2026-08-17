@@ -68,7 +68,7 @@ namespace SoftGames.AceOfShadows
             set => transferSpeed = Mathf.Clamp(value, MinSpeed, MaxSpeed);
         }
 
-        // Entry point: tears any running deal down and redeals. Also the popup's Retry.
+        // Tears any running deal down and redeals. Also the popup's Retry.
         private void Begin()
         {
             if (!HasFaceSprites())

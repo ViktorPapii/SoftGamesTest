@@ -34,7 +34,7 @@ namespace SoftGames.AceOfShadows
         private int _height;
         private Vector2 _canvasSize;
 
-        /// <summary>Settles the UI, rescales the camera and notifies listeners.</summary>
+        // Settles the UI, rescales the camera and notifies listeners.
         public void Refresh()
         {
             Canvas.ForceUpdateCanvases();

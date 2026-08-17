@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace SoftGames.Core
 {
-    // The one place a scene is named. The menu builds its buttons from Games; the navigator
-    // resolves every scene name through here.
+    // The one place a scene is named. Menu rows are authored in the scene and checked against
+    // Games by MenuEntryTests; the navigator resolves every scene name through here.
     [CreateAssetMenu(fileName = "SceneCatalog", menuName = "SoftGames/Scene Catalog")]
     public class SceneCatalog : ScriptableObject
     {

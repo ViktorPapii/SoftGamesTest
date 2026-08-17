@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 namespace SoftGames.AceOfShadows
 {
-    /// Recycles card views — only a handful of the 144 are on screen at once.
+    // Recycles card views — only a handful of the 144 are on screen at once.
     public class CardPool : MonoBehaviour
     {
         [SerializeField] private CardView cardPrefab;

@@ -10,7 +10,7 @@ accident and nothing has to be hunted for:
 
 ```
 Assets/_Project/
-├── Core/            navigation, menu, HUD, the UI kit
+├── Core/            navigation, menu, HUD, the shared background
 ├── AceOfShadows/
 ├── MagicWords/
 └── PhoenixFlame/
@@ -18,7 +18,8 @@ Assets/_Project/
 ```
 
 A folder only exists where it has content — an empty one is a directory git will not carry and Unity
-will recreate. The vocabulary is fixed even where a game does not use all of it.
+will recreate. The vocabulary is shared even where a game does not use all of it; `Core/Fonts` is
+the one folder outside it.
 
 Core's scripts group by responsibility, each folder matching a section below:
 
@@ -52,10 +53,8 @@ the four UI sprites the same scene draws — 57 in one page. Its packable is the
 dropped into `Images/` is atlased from then on without anyone remembering to add it.
 
 Everything else ships as its own texture. An atlas earns its place by collapsing many draws into
-one; three of them here held a single sprite each and did nothing but add a page, and the fourth
-packed the 1920x1080 menu background into a 2048 sheet that was then three-quarters empty. A
-full-screen background is drawn alone and cannot batch with anything, so atlasing it only rounds it
-up to the next power of two.
+one, so a single-sprite atlas is only a page, and a full-screen background is drawn alone and cannot
+batch with anything — atlasing one just rounds it up to the next power of two.
 
 That gives the rule for compression:
 
@@ -108,12 +107,15 @@ everywhere, impossible to forget when adding a scene.
 sits. Nothing on the HUD decides any of that for itself, so the button is a plain uGUI `Button` with
 no script of its own and the readout knows nothing about the button.
 
-It asks the navigator two questions, `IsOnMenu` and `IsBusy`, through `IGameNavigation`, and is
-told when to re-ask: `StateChanged` fires when `IsBusy` flips, which is the only moment either
-answer can change — by the time a transition ends, `IsOnMenu` already describes the scene that
-arrived. So the HUD has no `Update` at all. `IsOnMenu`
-is answered by the navigator so no UI has to know a scene name, or that the catalog is where the
-menu is recorded.
+It asks the navigator two questions, `IsOnMenu` and `IsSwapping`, through `IGameNavigation`, and is
+told when to re-ask: `StateChanged` fires when either `IsBusy` or `IsSwapping` flips, which between
+them cover every moment an answer can change. So the HUD has no `Update` at all. `IsOnMenu` is
+answered by the navigator so no UI has to know a scene name, or that the catalog is where the menu
+is recorded.
+
+`IsSwapping` rather than `IsBusy` is the whole point: it drops once the incoming scene is in place
+and the cover is still opaque, so the Exit button is positioned before the reveal rather than
+appearing on top of the finished scene.
 
 ### Composition
 
@@ -154,12 +156,11 @@ rather than the button relying on `Load`'s own `IsBusy` guard to ignore the clic
 it every frame costs no UI rebuild and can never dirty the canvas the Menu button lives on. IMGUI
 also draws over every canvas, so the reading survives a fade.
 
-That trade is not free in one direction only: the old label rebuilt a canvas twice a second, while
-this runs the IMGUI event loop every frame for the life of the app. The `EventType.Repaint` guard
-skips the layout pass, and the label string is only rebuilt when the rounded value changes, but on
-WebGL per-frame IMGUI dispatch is plausibly the dearer of the two. It stays because the brief asks
-for the frame rate on screen in the shipped build, so gating it on `Debug.isDebugBuild` is not an
-option — but it is a cost, not a saving.
+It is not free: the IMGUI event loop runs every frame for the life of the app. The
+`EventType.Repaint` guard skips the layout pass and the label string is rebuilt only when the
+rounded value changes, but per-frame dispatch on WebGL is a real cost, not a saving. It stays
+because the brief asks for the frame rate on screen in the shipped build, which rules out gating it
+on `Debug.isDebugBuild`.
 
 It reads every frame with no refresh window, smoothed by a time-weighted moving average — a slow
 frame moves the number on the frame it lands, which a windowed mean would have averaged away. The

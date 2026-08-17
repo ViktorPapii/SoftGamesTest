@@ -100,11 +100,10 @@ so one fragment path serves both blend modes. Its pass carries no `LightMode` ta
 it in the 2D renderer's unlit queue.
 
 Colours stay inside 0–1, and **there is no post-processing** — no volume, no bloom, no HDR buffer on
-the camera. Bloom was in here and earned nothing: the pack's flame art has soft light baked in and the
-`Glow` layer is a wide additive billboard, so the halo was already painted, and a vignette on a
-backdrop this dark is invisible by construction. Dropping it takes a full-screen post chain, a
-half-float colour target and the blit off a WebGL build, which is where those cost most. The `Glow`
-layer and the core's alpha carry the heat instead.
+the camera. The flame art has soft light baked in and the `Glow` layer is a wide additive billboard,
+so the halo is painted rather than filtered; the `Glow` layer and the core's alpha carry the heat.
+That keeps a full-screen post chain, a half-float colour target and the blit off a WebGL build,
+which is where those cost most.
 
 The backdrop is a lit sprite, so the flame's `Light2D` plays across it and the whole scene shifts hue
 with the fire.
@@ -128,8 +127,7 @@ present in this scene without the scene owning anything.
   state name alone, so renaming an entry compiles, imports and plays, and only turns into a red
   console the moment that colour comes round. This asserts the two name sets match in both
   directions, and that palette names are distinct.
-- `PhoenixFlameSceneTests` (play mode) — loads the scene, presses the colour button, and asserts the
-  fire has gone from orange to green two seconds later. It names no Phoenix Flame type: it drives the
-  button and reads the particle system, so it covers the whole chain and fails on any error the scene
-  logs. It caught one — a velocity module with its axes in different curve modes, which logged every
-  frame it simulated.
+- `PhoenixFlameSceneTests` (play mode) — loads the scene, presses the colour button and asserts the
+  fire's colour moved, without naming which colours: the palettes are an asset anyone may retune. It
+  names no Phoenix Flame type either, driving the button and reading the particle system, so it
+  covers the whole chain and fails on any error the scene logs.

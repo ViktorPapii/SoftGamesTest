@@ -3,9 +3,10 @@
 144 cards stacked as a deck, moving one at a time to a second deck, with a counter over each and
 Core's shared completion popup when the last one lands.
 
-Scene: `Assets/_Project/AceOfShadows/Scenes/AceOfShadows.unity`. Entry point:
-`AceOfShadowsController.Begin()`, which tears any running deal down and redeals from scratch — so it
-is also what the shared completion popup gets handed as its Retry.
+Scene: `Assets/_Project/AceOfShadows/Scenes/AceOfShadows.unity`. The run starts in
+`AceOfShadowsController`'s private `Begin()`, from `Start` when `autoStart` is on; it tears any
+running deal down and redeals from scratch, which is why it is also what the shared completion popup
+gets handed as its Retry.
 
 ## 144 cards, a handful of objects
 
@@ -81,8 +82,8 @@ rules cannot reach UnityEngine, so `Tests/EditMode/DeckModelTests` runs them wit
 play mode. Same split as `MagicWords/Scripts/Core`.
 
 The rules worth pinning: a deck is a stack, `PeekFromTop(visibleDepth - 1)` is in range rather than
-one past the end, `CountChanged` carries the new count and stays quiet on reads, and a card taken
-from one deck belongs to neither until it is put on the other.
+one past the end, `CountChanged` carries the new count and stays quiet on reads, and the in-flight
+invariant above holds.
 
 ## Layout
 

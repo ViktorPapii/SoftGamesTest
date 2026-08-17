@@ -1,6 +1,5 @@
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SoftGames.Core
 {
@@ -11,9 +10,6 @@ namespace SoftGames.Core
     public class SceneFader : MonoBehaviour
     {
         [SerializeField] private CanvasGroup group;
-
-        [Tooltip("The full-screen cover. Its colour is what a transition looks like.")]
-        [SerializeField] private Image cover;
 
         [Min(0f)]
         [SerializeField] private float coverDuration = 0.25f;
@@ -58,7 +54,6 @@ namespace SoftGames.Core
         private void Reset()
         {
             group = GetComponent<CanvasGroup>();
-            cover = GetComponentInChildren<Image>();
         }
     }
 }

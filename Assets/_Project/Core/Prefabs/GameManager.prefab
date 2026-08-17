@@ -1882,7 +1882,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: SoftGames.Core::SoftGames.Core.SceneFader
   group: {fileID: 6717276818036239882}
-  cover: {fileID: 2565604914627152520}
   coverDuration: 0.25
   revealDuration: 0.35
   shape:

@@ -5,7 +5,8 @@ their side of the box, so the speaker reads at a glance without a second element
 background. Not a scrolling chat: each line replaces the last, and the backlog lives behind the
 **Log** button.
 
-Scene: `Assets/_Project/MagicWords/Scenes/MagicWords.unity`. Entry point: `MagicWordsController.Begin()`.
+Scene: `Assets/_Project/MagicWords/Scenes/MagicWords.unity`. The run starts in
+`MagicWordsController`'s private `Begin()`, which is also the popup's Retry after a failed fetch.
 
 ## Layers
 
@@ -24,7 +25,7 @@ Assets/_Project/MagicWords/Scripts/
 | `DialogueScript` | Lines, cast, and `PortraitRequests` — the only portraits worth fetching. |
 | `MagicWordsClient` | Fetch + parse. Timeout, one retry, no scene knowledge. |
 | `AvatarService` | Portrait downloads, caching and texture disposal. |
-| `EmojiCatalog` | Token to Unicode table (ScriptableObject), plus the unknown-token policy. |
+| `EmojiCatalog` | Token to Unicode table (ScriptableObject). |
 | `DialogueBoxView` | The single visible line: name plate, portrait, typewriter. |
 | `DialogueHistoryView` | Backlog overlay. |
 | `ResponsiveLayout` | Landscape and portrait arrangements. |
@@ -59,8 +60,9 @@ logged once, batched, at load.
 v3 ships `{tokens}` and no emoji of its own, so the mapping is ours: `EmojiCatalog` turns
 `{laughing}` into U+1F602. The composed string carries real Unicode, and TMP resolves it through
 `EmojiAtlas.asset` — a sprite asset whose sprites are registered under their codepoints. Without it
-a build with no system emoji font renders tofu. An unrecognised token falls back to ❓ rather than
-disappearing; the policy is switchable on the catalog.
+a build with no system emoji font renders tofu. An unrecognised token is dropped and nothing is
+drawn in its place — a stand-in glyph would put a mood in the line the payload never sent — and the
+token is recorded for the load warning.
 
 See `Assets/_Project/MagicWords/Art/Emoji/README.md` for the atlas and its licence.
 
