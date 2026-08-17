@@ -1,12 +1,5 @@
 fileFormatVersion: 2
 guid: 296919e0817a9e944873a1f2c15b4a4c
-AssetOrigin:
-  serializedVersion: 1
-  productId: 305098
-  packageName: VFX URP - Fire Package
-  packageVersion: 1.0
-  assetPath: Assets/VFXPACK_FIRE_WALLCOEUR/Texture/A_Smoke_2.png
-  uploadId: 716663
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

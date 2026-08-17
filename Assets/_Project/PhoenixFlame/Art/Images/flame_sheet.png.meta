@@ -1,12 +1,5 @@
 fileFormatVersion: 2
 guid: 082ec2bf50e5b0a47ad0fd5727419acd
-AssetOrigin:
-  serializedVersion: 1
-  productId: 305098
-  packageName: VFX URP - Fire Package
-  packageVersion: 1.0
-  assetPath: Assets/VFXPACK_FIRE_WALLCOEUR/Texture/a_VFX_flame.png
-  uploadId: 716663
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
