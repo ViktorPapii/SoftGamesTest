@@ -1,5 +1,7 @@
 # SoftGames Test
 
+**▶ [Play it in the browser](https://play.unity.com/en/games/82485d12-0c42-458e-9247-0e8913e589c8/softgametestv1)** — WebGL build, hosted on Unity Play.
+
 Three small Unity tasks behind one menu — a card transfer, a fetched dialogue, and a fire effect —
 built as one project rather than three, so the shared parts (navigation, HUD, scene teardown) are
 solved once.
@@ -31,6 +33,7 @@ state and offers Retry rather than hanging.
 
 A Web build profile ships with the project: **File ▸ Build Profiles ▸ Web - Desktop - Release**.
 DXT texture compression, LTO, Brotli with decompression fallback so it loads off any static host.
+That profile produced the build linked at the top.
 
 ## Layout
 
