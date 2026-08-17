@@ -68,12 +68,6 @@ namespace SoftGames.PhoenixFlame
             fade = 1f;
             _to = 0;
 
-            if (palettes == null || palettes.Count == 0)
-            {
-                Debug.LogError($"[{name}] No palette set assigned.", this);
-                return;
-            }
-
             _stateHashes = new int[palettes.Count];
             for (int i = 0; i < palettes.Count; i++)
             {

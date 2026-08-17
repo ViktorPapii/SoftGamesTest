@@ -19,7 +19,7 @@ namespace SoftGames.Core
 
         [SerializeField] private GameHud hud;
 
-        [Tooltip("Frame cap applied at startup. WebGL ignores it and follows the browser's vsync.")]
+        [Tooltip("Frame cap applied at startup. Not applied on WebGL, which follows the browser.")]
         [Min(0)]
         [SerializeField] private int targetFrameRate = 60;
 
@@ -49,10 +49,14 @@ namespace SoftGames.Core
             completion.Init(navigation);
             hud.Init(navigation);
 
+            // Setting this on WebGL swaps requestAnimationFrame for setTimeout scheduling, which
+            // drifts against the browser's vsync and shows up as periodic dropped frames.
+#if !UNITY_WEBGL
             if (targetFrameRate > 0)
             {
                 Application.targetFrameRate = targetFrameRate;
             }
+#endif
         }
 
         private void OnDestroy()

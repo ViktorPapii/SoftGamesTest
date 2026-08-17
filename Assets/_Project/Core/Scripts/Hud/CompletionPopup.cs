@@ -23,6 +23,14 @@ namespace SoftGames.Core
 
         public void Show(string text, Action onRetry)
         {
+            // The outgoing scene keeps running behind the cover, so a run can finish — or a fetch
+            // fail — after SceneChanging has already cleared this. Opening now would ride into the
+            // next scene with a Retry closing over a controller that is about to be destroyed.
+            if (_navigation.IsBusy)
+            {
+                return;
+            }
+
             message.text = text;
             _onRetry = onRetry;
             retryButton.gameObject.SetActive(onRetry != null);

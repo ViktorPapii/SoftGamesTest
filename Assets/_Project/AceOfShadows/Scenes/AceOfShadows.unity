@@ -745,7 +745,6 @@ GameObject:
   - component: {fileID: 572980225}
   - component: {fileID: 572980228}
   - component: {fileID: 572980227}
-  - component: {fileID: 572980226}
   m_Layer: 5
   m_Name: SourceCounter
   m_TagString: Untagged
@@ -773,21 +772,6 @@ RectTransform:
   m_AnchoredPosition: {x: 138.03998, y: 20}
   m_SizeDelta: {x: 235.28, y: 78.33}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &572980226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572980224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7bb308d0ac648d88f2d658d9a1e903, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoftGames.AceOfShadows.DeckCounterView
-  label: {fileID: 34731511}
-  punchStrength: 0.25
-  punchDuration: 0.2
 --- !u!114 &572980227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1661,7 +1645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoftGames.AceOfShadows.CardPool
   cardPrefab: {fileID: 5130785927605436260, guid: b5ca59a94f04f46a7bfddf955e692249, type: 3}
-  prewarmCount: 7
+  prewarmCount: 10
   maxSize: 64
 --- !u!4 &1507379544
 Transform:
@@ -1764,7 +1748,6 @@ GameObject:
   - component: {fileID: 2117143480}
   - component: {fileID: 2117143483}
   - component: {fileID: 2117143482}
-  - component: {fileID: 2117143481}
   m_Layer: 5
   m_Name: Value
   m_TagString: Untagged
@@ -1791,21 +1774,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -5.7800293}
   m_SizeDelta: {x: 0, y: -11.57}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2117143481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117143479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7bb308d0ac648d88f2d658d9a1e903, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoftGames.AceOfShadows.DeckCounterView
-  label: {fileID: 2117143482}
-  punchStrength: 0.25
-  punchDuration: 0.2
 --- !u!114 &2117143482
 MonoBehaviour:
   m_ObjectHideFlags: 0

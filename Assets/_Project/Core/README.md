@@ -273,9 +273,13 @@ every scene, so no scene can hold a serialized reference to it.
 
 **The callback is dropped on every transition.** It closes over the controller that raised it, and
 the popup outlives that controller — holding it would keep a destroyed object reachable and make
-Retry run against a torn-down scene. `SceneNavigationController` calls `Dismiss()` on the covered
-frame of each load, and `CompletionPopupTests` asserts a stale callback cannot fire after a scene
-change.
+Retry run against a torn-down scene. `CompletionPopup` subscribes to the navigator's `SceneChanging`
+and dismisses itself on the covered frame; the navigator knows nothing about it.
+
+That alone is not enough, because the outgoing scene keeps running behind the cover: a deal can
+finish, or a fetch fail, *after* `SceneChanging` has already cleared the popup. So `Show` also
+refuses while the navigator is busy — otherwise the panel would open during the load and ride into
+the next scene holding a Retry for a controller that is already gone.
 
 ## Leaving a scene: what actually stops
 

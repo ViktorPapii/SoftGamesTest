@@ -4,7 +4,6 @@
     "references": [
         "SoftGames.Core",
         "SoftGames.MagicWords.Core",
-        "DOTween.Modules",
         "UnityEngine.UI",
         "Unity.TextMeshPro"
     ],

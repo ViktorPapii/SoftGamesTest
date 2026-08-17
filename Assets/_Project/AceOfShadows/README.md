@@ -11,12 +11,15 @@ gets handed as its Retry.
 ## 144 cards, a handful of objects
 
 A deck is a **count**, not a pile of GameObjects. `DeckModel` holds the card ids; `DeckView` shows
-the top `visibleDepth` of them as real cards and nothing else. At 144 cards the per-card offset
-would fall below a pixel anyway, so the rest of the deck has no reason to exist as objects.
+the top `visibleDepth` of them as real cards and nothing else. The slot offset is about a third of a
+unit, so a literal 144-card stack would run off the screen long before the last card — and only the
+top of a pile reads as a pile anyway.
 
-`CardPool` recycles the few that do. The worst case in flight is `(visible slots x 2 decks) + cards
-in the air`, which is why the pool prewarms 10 and warns rather than silently growing if that turns
-out to be wrong.
+`CardPool` recycles the few that do. The worst case in the air is `speed x flight duration`, which at
+the slider's maximum is 10/s x 0.8s = 8, plus `visibleDepth x 2 decks` residents and the cards
+retiring behind them. The pool prewarms 10, which covers everything up to the top of the slider; held
+at maximum it grows once past the prewarm and logs that it did, which is the warning working rather
+than a leak.
 
 | Piece | Role |
 |---|---|

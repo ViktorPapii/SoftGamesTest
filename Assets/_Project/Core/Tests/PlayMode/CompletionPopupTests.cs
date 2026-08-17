@@ -61,9 +61,11 @@ namespace SoftGames.Core.Tests
 
             Assert.IsFalse(popup.IsOpen, "The popup rode along into the next scene.");
 
-            // The button's GameObject is still active — only the popup's group was hidden. Pressing
-            // it now is what proves the callback itself was dropped, not merely hidden behind it.
-            Click("RetryButton");
+            // Invoked directly rather than through a pointer click: Button.Press bails on
+            // IsInteractable, which the dismissed CanvasGroup already makes false, so a pointer
+            // click would pass whether or not the callback was ever dropped. Going straight to
+            // onClick runs the popup's own handler, which is the thing under test.
+            Find("RetryButton").onClick.Invoke();
             yield return null;
 
             Assert.AreEqual(0, retries,

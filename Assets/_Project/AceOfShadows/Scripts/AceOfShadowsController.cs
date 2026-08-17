@@ -139,9 +139,12 @@ namespace SoftGames.AceOfShadows
             {
                 yield return null;
 
-                sinceLastTransfer += Time.deltaTime;
-
                 float interval = 1f / transferSpeed;
+
+                // Capped: a tab left in the background banks seconds of intervals, and the loop
+                // launches at most one card a frame, so the backlog would drain far faster than
+                // the speed asks for and put more cards in the air than the pool holds.
+                sinceLastTransfer = Mathf.Min(sinceLastTransfer + Time.deltaTime, interval * 2f);
                 if (sinceLastTransfer < interval)
                 {
                     continue;

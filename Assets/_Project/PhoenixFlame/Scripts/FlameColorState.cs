@@ -11,10 +11,17 @@ namespace SoftGames.PhoenixFlame
     {
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (animator.TryGetComponent(out FlameColorController controller))
+            // A StateMachineBehaviour has no scene reference to serialize, so this is the one
+            // lookup that has to happen at run time. Silently doing nothing would leave the fire
+            // stuck on its first colour with no clue why.
+            if (!animator.TryGetComponent(out FlameColorController controller))
             {
-                controller.BeginFadeTo(stateInfo.shortNameHash);
+                Debug.LogError($"No {nameof(FlameColorController)} on {animator.name}; " +
+                               "the colour cycle cannot run.", animator);
+                return;
             }
+
+            controller.BeginFadeTo(stateInfo.shortNameHash);
         }
     }
 }

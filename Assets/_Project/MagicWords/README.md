@@ -35,7 +35,9 @@ scene — see `Assets/_Project/MagicWords/Tests/EditMode/` (25 tests).
 
 ## What the payload does to you
 
-The v3 endpoint is a fixture with teeth. Every one of these is handled and covered by a test:
+The v3 endpoint is a fixture with teeth. Every one of these is handled, and every one that is a
+parsing decision is covered by a test — the two that cross the network are not, because
+`MagicWordsClient` and `AvatarService` wrap `UnityWebRequest` with no seam to fake:
 
 - **`Sheldon` is listed twice** — once `left` with a working url, once `right` with
   `https://api.dicebear.com:81/blub`, which never connects. Avatars are **first wins**, so a later
@@ -49,11 +51,20 @@ The v3 endpoint is a fixture with teeth. Every one of these is handled and cover
   payload's avatars array. Both dead urls are gone before the network is touched.
 - **`https://api.dicebear.com/5.x/personas/` returns 400 with JSON** — the response is checked for an
   `image/*` content type and a decodable texture, so a non-image never becomes a broken portrait.
+  This one is verified by hand, not by a test.
 - **Markup in the text** — literal runs are wrapped in `<noparse>`, so tags arriving from the endpoint
   render as text instead of executing. A `</noparse>` inside the payload is neutralised first.
 
 Missing text drops the line; a missing name renders it as narration. Everything recoverable is
 logged once, batched, at load.
+
+## Deploying it
+
+This is the one task that needs the network at run time, and it reaches **two** cross-origin hosts:
+the apiary mock for the script and `api.dicebear.com` for the portraits. A browser blocks both unless
+they answer with `Access-Control-Allow-Origin`; in a WebGL build that surfaces as the failure panel
+and a CORS message in the console, not as a Unity error. Both hosts currently send it, but a build
+served from a page that proxies or rewrites them will not.
 
 ## Emoji
 
